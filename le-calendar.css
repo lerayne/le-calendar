@@ -1,0 +1,115 @@
+.anrom-calendar {
+	border:1px solid #eee;
+	padding:2px;
+}
+
+.anrom-calendar .controls {
+	background-color: #eee;
+	position: relative;
+}
+
+.anrom-calendar .body {
+	overflow: hidden;
+	position: relative;
+}
+
+.anrom-calendar .anr-cal-cell {
+	/*padding:4px 6px;*/
+	width: 14.28%;
+	display:block;
+	float:left;
+	text-decoration: none;
+	cursor:pointer;
+}
+
+.anrom-calendar .dir-btn {
+	width:11%;
+}
+
+.anrom-calendar .prev-year,
+.anrom-calendar .prev-month {
+	float:left;
+}
+
+.anrom-calendar .next-year,
+.anrom-calendar .next-month {
+	float:right;
+}
+
+.anrom-calendar .anr-cal-cell:hover {
+	text-decoration: none;
+}
+
+.anrom-calendar .anr-cal-cell div {
+	margin:3px;
+	height: 1.2em;
+	text-align: center;
+}
+
+.anrom-calendar .holiday {
+	color:blue;
+}
+
+.anrom-calendar .current-month-wrp {
+	width: 56%;
+	position: absolute;
+	text-align: center;
+	margin:0 22%
+}
+
+.anrom-calendar .current-month-wrp select {
+	margin:0;
+	padding: 0;
+	background-color: transparent;
+}
+
+.anrom-calendar .current-month {
+	margin:3px;
+	height: 1.2em;
+	text-align: center;
+}
+
+.anrom-calendar .controls .anr-cal-cell {
+	font-weight: bold;
+	font-size: 110%;
+}
+
+.anrom-calendar .month-body {
+	position: absolute;
+	width:100%;
+}
+
+.anrom-calendar .other-month {
+	opacity:0.4;
+}
+
+.anrom-calendar .month-body .anr-cal-cell:hover div {
+	margin:1px;
+	border:2px solid #999;
+}
+
+.anrom-calendar .month-body .anr-cal-cell.selected div {
+	margin:1px;
+	border:2px solid red;
+}
+
+.anrom-calendar .month-body .anr-cal-cell.selected:hover div {
+	margin:1px;
+	border:2px solid red;
+}
+
+.anrom-calendar .month-body .today {
+	background-color: #fffacd;
+}
+
+.anrom-calendar .day-names {
+	border-bottom:1px solid #ccc;
+}
+
+.calendarWrap {
+	position: absolute;
+	background-color: #fff;
+	z-index:9999;
+	width:260px;
+	box-shadow: 0 5px 15px #777;
+}

@@ -15,6 +15,21 @@ var inArray = function (val, array) {
 
 if (typeof(anrom)== 'undefined') anrom = {};
 
+anrom.leadzero = function (num, count) {
+// count - максимальное число нулей, а не разрядность числа! т.е. "разрядность-1"
+// если не указано - равно 1
+
+	if (typeof count == 'undefined') var count = 1;
+	if (typeof num == 'string') num = parseInt(num,10);
+
+	var str = num + '';
+	while (num < Math.pow(10, count) && count > 0) {
+		str = '0' + str;
+		count--;
+	}
+	return str;
+}
+
 anrom.Calendar = function (date, options, actions) {
 
 	// опции по умолчанию
@@ -418,31 +433,33 @@ anrom.CalendarDrop.prototype = {
 
 		element
 			.focus(function(){
-			that.calendarShow(element);
-		})
+				that.calendarShow(element);
+			})
 			.click(this.stop)
-			.keypress(this.calendarType);
+			.keypress(this.calendarType)
 
 	},
 
 	dayClick:function () {
-		if (defined(this.calendarWrap)) {
+		if (!!this.calendarWrap) {
 
 			console.log('currentPosition', this.calendar.currentPosition);
 
-			this.calendar.currentPosition.val(this.dateToString(this.calendar.selectedDate))
+			this.calendar.currentPosition.val(this.dateToString(this.calendar.selectedDate, this.calendar.options.order))
 			this.calendar.currentPosition.change();
 			this.calendarHide();
 		}
 	},
 
-	dateToString:function (date) {
+	dateToString:function (date, order) {
 
 		var output = '';
 
-		if (this.calendar.options.order == 'ymd') {
+		if (typeof order == 'undefined') var order = 'dmy';
+
+		if (order == 'ymd') {
 			output += date.getFullYear() + '.' + anrom.leadzero(date.getMonth() + 1) + '.' + anrom.leadzero(date.getDate());
-		} else if (this.calendar.options.order == 'dmy') {
+		} else if (order == 'dmy') {
 			output += anrom.leadzero(date.getDate()) + '.' + anrom.leadzero(date.getMonth() + 1) + '.' + date.getFullYear();
 		}
 
@@ -451,18 +468,19 @@ anrom.CalendarDrop.prototype = {
 		return output;
 	},
 
-	stringToDate:function (str) {
+	stringToDate:function (str, order) {
 		var dt = str.split(' ');
 		var dateStr = dt[0];
+
 
 		var chunks = dateStr.split('.');
 		if (chunks.length != 3) return false;
 
-		console.log('chunks', chunks);
+		if (typeof order == 'undefined') var order = 'dmy';
 
-		if (this.calendar.options.order == 'ymd') {
+		if (order == 'ymd') {
 			var date = new Date(parseInt(chunks[0], 10), parseInt(chunks[1], 10) - 1, parseInt(chunks[2], 10));
-		} else if (this.calendar.options.order == 'dmy') {
+		} else if (order == 'dmy') {
 			var date = new Date(parseInt(chunks[2], 10), parseInt(chunks[1], 10) - 1, parseInt(chunks[0], 10));
 		}
 
@@ -513,7 +531,7 @@ anrom.CalendarDrop.prototype = {
 
 	calendarUpdate:function () {
 		var val = this.calendar.currentPosition.val();
-		var dateSet = this.stringToDate(val);
+		var dateSet = this.stringToDate(val, this.calendar.options.order);
 		var time = val.split(' ')[1];
 		if (this.addTime) this.addTime = time ? time : true;
 		if (dateSet) this.calendar.setDate(dateSet);
